@@ -1,18 +1,12 @@
 <?php
 
-	
-function Conectar()
-{
-	$conn = mysql_connect("localhost","root","") or die("Error en conexion");
-	mysql_select_db("funde", $conn) or die("Error en base de datos");
-	//mysql_query("SET NAMES 'utf8'");
+function Conectar(){
+	$conn = mysqli_connect("localhost","root","") or die("Error en conexion");
+	mysqli_select_db($conn, "funde") or die("Error en base de datos");
+	//mysqli_query($conexion,  , $conxecion, "SET NAMES 'utf8'");
 	return $conn;
 }
-function Desconectar($conn)
-{
-	mysql_close($conn);
+function Desconectar($conn){
+	mysqli_close($conn);
 }
-
 ?>
-
-

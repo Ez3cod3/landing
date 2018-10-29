@@ -1,13 +1,7 @@
 <!DOCTYPE html>
-<!--if lt IE 7html.no-js.lt-ie9.lt-ie8.lt-ie7
--->
-<!--if IE 7html.no-js.lt-ie9.lt-ie8
--->
-<!--if IE 8html.no-js.lt-ie9
--->
-<!--[if gt IE 8]><!-->
+
 <html>
-  <!--<![endif]\-->
+  
   <head>
     <meta charset="utf-8">
     <meta name="language" content="es">
@@ -46,134 +40,32 @@
     <link href="css/stylus.css" rel="stylesheet">
   </head>
   <body>
+<?php 
+  session_start(); 
+  $yes = $_SESSION['log'];
+  $cod = $_SESSION['cod'];
+  $ids = $_SESSION['usr'];
+?>
     <header class="site-header">
       <div class="site-header-top">
         <div class="container">
           <nav class="navigation">
             <div class="row">
               <div class="col-sm-4 col-md-4">
-                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="index.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
+                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="home.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
               </div>
               <div class="col-xs-12 col-sm-8 col-md-8">
                 <h1 class="font-bold text-center letter letter_style-h1">SISTEMA DE GESTIÓN ACADEMICA FUNDE </h1>
-                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO DE LA EDUCACIÓN </h3>
+                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO Y LA EDUCACIÓN </h3>
                 <h3 class="text-center letter letter_style-h3--small">Foundation for Development and Education </h3>
               </div>
             </div>
           </nav>
+          <?php include "menu.php"; ?>
         </div>
       </div>
     </header>
-    <div class="container">
-      <div id="wrapped">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom:0;">
-          <div class="navbar-header"><a class="navbar-brand" href="index.php"><i class="fa fa-th-large"> FUNDE | FDE</i></a></div>
-          <ul class="nav navbar-top-links navbar-right list_ul">
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-clock-o"></i><b class="caret"></b></a>
-              <ul class="dropdown-menu dropdown-user animated fadeInRight m-t-xs">
-                <li><a href="#"><i class="fa fa-clock-o" id="liveclock"></i><font class="clock">Hora: </font></a></li>
-                <li><a href="#"><i class="fa fa-calendar"></i></a></li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope fa-fw"><span class="label label-warning">5</span></i></a>
-              <ul class="dropdown-menu dropdown-messages animated fadeInRight m-t-xs">
-                <li>
-                  <div class="dropdown-messages-box"></div>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toogle="dropdown" aria-expanded="false"><i class="fa fa-bell"> </i><span class="label label-primary">8</span></a>
-              <ul class="dropdown-menu dropdown-alerts animated fadeInRight m-t-xs">
-                <li><a href="#">
-                    <div><i class="fa fa-envelope fa-fw">Tienes 16 mensajes</i><span class="pull-right text-muted small">4 minutos atras</span></div></a></li>
-                <li class="divider"></li>
-                <li><a href="#">
-                    <div><i class="fa fa-twitter fa-fw">3 nuevos seguidores</i><span class="pull-right text-muted small">12 minutos atras</span></div></a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-upload fa-fw">Servicio Rebotado</i><span class="pull-right text-muted small">4 minutos atras</span></a></li>
-                <li class="divider"></li>
-                <li>
-                  <div class="text-center link-block"><a href="#"><strong>Ver todas la notificaciones</strong></a><i class="fa fa-angle-right"></i></div>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-user-o"> Admin</i><b class="caret"></b></a>
-              <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                <li><a href="#">Perfil</a></li>
-                <li><a href="#">Notificaciones</a></li>
-                <li class="divider"></li>
-                <li><a href="login.php"> <i class="fa fa-sing-out"> Salir</i></a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <div class="navbar-default navbar-static-side" role="navigation">
-          <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-              <li class="nav-header menu">
-                <div class="dropdown profile-element"><span>MENU</span></div>
-              </li>
-              <li><a href=""><i class="fa fa-gears"> </i><span class="nav-label"> Configurar Menu  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="listado-funciones.php"><i class="fa fa-code-fork"></i>Listado de funciones</a></li>
-                  <li><a href="listado-formularios.php"><i class="fa fa-list-ul"></i>Listado de formularios</a></li>
-                  <li><a href="listado-form-fun.php"><i></i>Asignar formulario</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-list-ul"> </i><span class="nav-label"> Configurar Roles  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="list-rol.php"><i class="fa fa-code-fork"></i>Lista de roles</a></li>
-                  <li><a href="asignar-rol.php"><i class="fa fa-list-ul"></i>Asignar rol</a></li>
-                  <li><a href="asignar-fun.php"><i></i>Asignar función</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-address-card"> </i><span class="nav-labelGestor"> Plantel Administrativo  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="plantel-admin.php"><i class="fa fa-code-fork"></i>Lista plantel administrativo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-institution"> </i><span class="nav-label"> Gestión Academica</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-programas.php"><i class="fa fa-code-fork"></i>Lista de Programas</a></li>
-                  <li><a href="lista-modulo.php"><i class="fa fa-list-ul"></i>Lista de módulos</a></li>
-                  <li><a href="lista-unidades.php"><i></i>Lista de unidades</a></li>
-                  <li><a href="lista-asistencia.php"><i class="fa fa-list-ul"></i>Lista de asistencia</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-graduation-cap"> </i><span class="nav-label"> Gestor Participantes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="participantes.php"><i class="fa fa-code-fork"></i>Lista de Participantes</a></li>
-                  <li><a href="kardex.php"><i class="fa fa-list-ul"></i>Kardex</a></li>
-                  <li><a href="notas-asistencia.php"><i class="fa fa-list-ul"></i>Notas y Asitenci</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-group"></i><span class="nav-label">Gestor Docentes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-participantes.php"><i class="fa fa-code-fork"></i>Lista Participantes</a></li>
-                  <li><a href="control-asistencia.php"><i class="fa fa-list-ul"></i>Control asistencia</a></li>
-                  <li><a href="lista-calificaciones.php"><i></i>Calificaciones</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-credit-card"></i><span class="nav-label">Gestor de Cobros</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="registro-cobro.php"><i class="fa fa-code-fork"></i>Registros de Cobro</a></li>
-                  <li><a href="regitro-aportes.php"><i class="fa fa-list-ul"></i>Aportes por cobrar</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-money"></i><span class="nav-label">Gestor Contable</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="recibos-egresos.php"><i class="fa fa-code-fork"></i>Recibos Egresos</a></li>
-                  <li><a href="recibos-ingresos.php"><i class="fa fa-list-ul"></i>Recibos Ingresos</a></li>
-                  <li><a href="caja-chica.php"><i></i>Caja</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="container">
       <div class="wrapped">
         <div class="gray-bg" id="page-wrapper" style="min-height:182px;">
@@ -181,7 +73,7 @@
             <div class="col-lg-10">
               <h2>Lista de asistencia por participante</h2>
               <ol class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
+                <li><a href="home.php">Home</a></li>
                 <li><a href="#">Lista de asistencia por participante</a></li>
               </ol>
             </div>
@@ -197,40 +89,81 @@
                 </div>
                 <div class="ibox-content">
                   <div class="table-responsive">
+                    <table table class="table table-bordered">
+                        <tr>
+                          <th colspan="6">Programa:</th>
+                          <td colspan="6">Programa 1</td>
+                        </tr>
+                        <tr>
+                          <th colspan="6">Unidad:</th>
+                          <td colspan="6">Unidad 1</td>
+                        </tr>
+                        <tr>
+                          <th colspan="6">Docente:</th>
+                          <td colspan="6">Orellana Guitierrez Pedro</td>
+                    </table>
                     <table class="table table-striped table-bordered table-hover dataTables-example" id="dataTables-example">
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Código Grupo</th>
+                          <th>Código unidad</th>
                           <th>Nombre Completo</th>
-                          <th>Asistencia</th>
+                          <th>Asistio</th>
+                          <th>Falto</th>
                           <th>Licencia</th>
                           <th>Fecha </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>79870765</td>
-                          <td>Lopez Trigo Isabel</td>
-                          <td> 
-                            <div class="text-center">
+                        <?php
+                          include_once("conexion.php");
+                          $conexion = Conectar();
+                          $id=$_GET['coduni'];
+                          $cont=0;
+                          $consulta="select * from unidad, modulo, programa, matricula, usuario where unidad.DOC_UNI = '$cod' and unidad.COD_MOD = modulo.COD_MOD and modulo.COD_PROGRA = programa.COD_PROGRA and programa.COD_PROGRA = matricula.COD_PROGRA and matricula.CI_USER = usuario.CI_USER and unidaD.COD_UNI = '$id' ";
+                          $query=mysqli_query($conexion, $consulta);
+                          $identi=0;
+                          while($dato=mysqli_fetch_array($query))
+                          {
+                            $cont++;
+                            echo" 
+                          
+                            <tr>
+                              <td>".$cont."</td>
+                              <td>".$dato["CI_USER"]."</td>
+                              <td>".$dato["APE_PAT"]." ".$dato["APE_MAT"]." ".$dato["NOM_USER"]." ".$dato["OTRO_NOM"]."</td>
+                              
+                             <td> 
+                            <div class='text-center'>
                               <label>
-                                <input class="i-checks" type="checkbox">
+                                <input class='i-checks' type='checkbox'>
+                              </label>
+                            </div>
+                          </td>
+                           <td> 
+                            <div class='text-center'>
+                              <label>
+                                <input class='i-checks' type='checkbox'>
                               </label>
                             </div>
                           </td>
                           <td> 
-                            <div class="text-center">
+                            <div class='text-center'>
                               <label>
-                                <input class="i-checks" type="checkbox">
+                                <input class='i-checks' type='checkbox'>
                               </label>
                             </div>
                           </td>
-                          <td>12/12/12</td>
-                        </tr>
-                      </tbody>
+                          <td>".$dato["FECHA_UNI"]."</td>
+                            
+                            </tr>";
+                          }?>
+                        </tbody>
+                      
                     </table>
+                     <div class="control-group">
+                      <div class="controls text-center margin_bottom"><a class="btn btn-info btn-w-m button" href="#" data-toggle="modal"><i class="fa fa-plus margin"></i>Guardar</a></div>
+                    </div>
                   </div>
                 </div>
               </div>

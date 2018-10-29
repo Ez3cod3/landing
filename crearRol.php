@@ -10,7 +10,7 @@ $conexion=Conectar();
 
 $insertarDato= "INSERT INTO rol(`ID_ROL`, `NOM_ROL`, `FECHA_INI`, `DESC_ROL`) VALUES (NULL, '$nom_rol', '$fec_ini', '$desc_rol')";
 
-mysql_query($insertarDato);
+mysqli_query($conexion, $insertarDato);
 echo "se creo un nuevo Rol";
 
 
