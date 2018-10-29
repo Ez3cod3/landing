@@ -31,7 +31,7 @@ if(isset($_REQUEST['new_plan']))
 			$insertarDato = "INSERT INTO planglobal(`COD_PG`, `VERS_PG`, `COD_MAT`, `RAZON_ASIG`, `PORQ_ASIG`, `CONTR_PROF`, `PROP_GRAL`, `OBJ_GRAL`, `BIB_GRAL`, `HAB_PG`, `FEC_CREA`) 
 												VALUES(NULL,'$vers_pg','$cod_mat', '$razon_asig', '$porq_asig', '$contr_prof', '$prop_gral', '$obj_gral ', '$bib_gral', '$hab_pg', '$fec_crea')";
 		echo $insertarDato;
-		mysql_query($insertarDato);
+		mysqli_query($conexion,  , $conxecion, $insertarDato);
 		header("Location:tema.php?codmat=".$cod_mat."");
 	}
 //nueva unidad
@@ -55,7 +55,7 @@ if(isset($_REQUEST['new_plan']))
 		$insertarUni = "INSERT INTO tema(`COD_TEM`, `COD_PG`, `VERS_PG`, `NOM_UNI`, `DURA_UNI`, `OBJ_UNI`, `CONT_UNI`, `TEC_PREDO`, `EVA_UNI`, `BIB_UNI`) 
 						VALUES(NULL,'$cod_pg','$vers_pg', '$nom_uni', '$dura_uni', '$obj_uni','$cont_uni', '$tec_predo','$eva_uni', '$bib_uni')";
 		
-		mysql_query($insertarUni);
+		mysqli_query($conexion,  , $conxecion, $insertarUni);
 		echo "Se inserto correctamente los datos";
 		header("Location:tema.php?codmat=".$cod_mat."&codpg=".$cod_pg."&verspg=".$vers_pg."");
 	}
@@ -76,7 +76,7 @@ if(isset($_REQUEST['new_plan']))
 		$insertarUni = "INSERT INTO tema(`COD_TEM`, `COD_PG`, `NOM_UNI`, `DURA_UNI`, `OBJ_UNI`, `CONT_UNI`, `TEC_PREDO`, `EVA_UNI`, `BIB_UNI`) 
 						VALUES(NULL,'$cod_pg', '$nom_uni', '$dura_uni', '$obj_uni','$cont_uni', '$tec_predo','$eva_uni', '$bib_uni')";
 		
-		mysql_query($insertarUni);
+		mysqli_query($conexion,  , $conxecion, $insertarUni);
 		echo "Se inserto correctamente los datos";
 		header("Location:listaPlanGlobal2.php");
 	}
@@ -94,7 +94,7 @@ if(isset($_REQUEST['cambiar_plan'])){
                 $c=1;
             }
             $consulta = "UPDATE plan_global SET HAB_PG='$c' WHERE COD_PG = '$a' AND VERS_PG ='$b' ";
-            $query = mysql_query($consulta);
+            $query = mysqli_query($conexion,  , $conxecion, $consulta);
             $counta++;
         }
         header("Location:listaPlanGlobal2.php?m=5");    
@@ -113,7 +113,7 @@ if(isset($_REQUEST['cambiarNoHab']))
                 $c=1;
             }
             $consulta = "UPDATE plan_global SET HAB_PG ='$c' WHERE COD_PG = '$a' AND VERS_PG = '$b'";
-            $query=mysql_query($consulta);
+            $query=mysqli_query($conexion,  , $conxecion, $consulta);
             $counta++;
         }
         header("Location:listaPlanGlobal2.php?m=5");   
@@ -140,7 +140,7 @@ if(isset($_REQUEST['cambiarNoHab']))
 						SET NOM_UNI = '$nom_uni', DURA_UNI = '$dura_uni', OBJ_UNI = '$obj_uni', CONT_UNI = '$cont_uni', TEC_PREDO = '$tec_predo', EVA_UNI = '$eva_uni'
 						WHERE COD_TEM = '$idt'";
 			
-			$query3 = mysql_query($update3);
+			$query3 = mysqli_query($conexion,  , $conxecion, $update3);
 
 			echo "este es el id de plan global : ".$idt;
 			echo "<br>";
@@ -177,12 +177,12 @@ if(isset($_REQUEST['cambiarNoHab']))
 						WHERE COD_PG = '$cod_pg'";
 						echo $update8;
 			
-			$query8 = mysql_query($update8);
+			$query8 = mysqli_query($conexion,  , $conxecion, $update8);
 
 			$update3 = "INSERT INTO tema ('COD_TEM','COD_PG','VERS_PG','NOM_UNI','DURA_UNI','OBJ_UNI','CONT_UNI','TEC_PREDO','EVA_UNI')
 									VALUES(NULL,'$cod_pg','$vers_pg1','$nom_uni','$dura_uni','$obj_uni','$cont_uni', '$tec_predo','$eva_uni')";
 			
-			$query3 = mysql_query($update3);
+			$query3 = mysqli_query($conexion,  , $conxecion, $update3);
 			echo "este es el id de plan global : ".$cod_pg.$vers_pg;
 			echo "<br>";
 			echo "<br>";
@@ -203,7 +203,7 @@ if(isset($_REQUEST['new_lib']))
 			$insertarDato = "INSERT INTO biblioteca(`COD_BIB`, `NOM_LIB`, `AUTOR`,`HAB_BIBL`) 
 									VALUES('$cod_bib','$nom_lib', '$autor', '$hab_bib')";
 			echo $insertarDato;
-		mysql_query($insertarDato);
+		mysqli_query($conexion,  , $conxecion, $insertarDato);
 		header("Location:libros.php?m=15");
 	}
 
@@ -219,7 +219,7 @@ if(isset($_REQUEST['new_lib']))
 			$insertarDato = "INSERT INTO biblioteca(`COD_LIB`, `NOM_LIB`, `AUTOR`,`HAB_BIBL`) 
 									VALUES('$cod_bib', '$nom_lib', '$aut_lib', '$hab')";
 		echo $insertarDato;
-		mysql_query($insertarDato);
+		mysqli_query($conexion,  , $conxecion, $insertarDato);
 	}
 
 

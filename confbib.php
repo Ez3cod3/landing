@@ -16,7 +16,7 @@ if(isset($_REQUEST['agrega_lib']))
 			$insertarDato = "INSERT INTO biblioteca(`COD_BIB`, `NOM_LIB`, `AUTOR`,`SEL_BIB`) 
 									VALUES('$cod_bib', '$nom_lib', '$aut_lib', '$hab')";
 		echo $insertarDato;
-		mysql_query($insertarDato);
+		mysqli_query($conexion, $insertarDato);
 		header("Location:biblio.php?m=15"); 
 	}
 
@@ -33,11 +33,11 @@ if(isset($_REQUEST['agrega'])){
               $consulta = "INSERT INTO biblio('COD','COD_MAT', 'COD_BIB', 'NOM_LIB', 'AUTOR')
 							VALUES (NULL,'$cod','$a','$nom','$aut')";
 			echo $consulta;
-			$query = mysql_query($consulta);
+			$query = mysqli_query($conexion, $consulta);
              /*  */
             } 
             $consulta1 = "UPDATE biblioteca SET SEL_BIB='$iden' WHERE COD_BIB = '$a'";
-            $quer1y = mysql_query($consulta1);
+            $quer1y = mysqli_query($conexion, $consulta1);
             echo $consulta1;
             
             //header('Location:biblio.php');

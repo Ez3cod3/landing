@@ -16,7 +16,7 @@ $conexion=Conectar();
                 $c=1;
             }
             $consulta = "UPDATE materia SET HABILITADO='$c' WHERE COD_MAT = '$a'";
-            $query=mysql_query($consulta);
+            $query=mysqli_query($conexion,  , $conxecion, $consulta);
             $counta++;
         }
         header("Location:listar_materias.php?m=3");    

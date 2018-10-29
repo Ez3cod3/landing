@@ -68,9 +68,9 @@ include "includes/cabecera_home.inc";
 											$conexion=Conectar();
 											$cont=0;
 											$consulta="select * from formulario,funcion,form_funcion where formulario.id_form=form_funcion.id_form and form_funcion.id_func=funcion.id_func";
-											$query=mysql_query($consulta);	
+											$query=mysqli_query($conexion, $consulta);	
 											$identi=0;
-											while($dato=mysql_fetch_array($query))
+											while($dato=mysqli_fetch_array($query))
 											{
 												$cont++;
 												echo "
@@ -121,8 +121,8 @@ include "includes/cabecera_home.inc";
 									<option value="">--Seleccione Funcion--</option>
 									<?php
 										$consulta1="select * from funcion";
-										$query1=mysql_query($consulta1);
-										while($dato1=mysql_fetch_array($query1)){
+										$query1=mysqli_query($conexion, $consulta1);
+										while($dato1=mysqli_fetch_array($query1)){
 										?>
 											<option value="<?php echo $dato1['ID_FUNC']; ?>"><?php echo $dato1['NOM_FUNC']; ?></option>
 										<?php 
@@ -141,8 +141,8 @@ include "includes/cabecera_home.inc";
 									<option value="">--Seleccione Formulario--</option>
 									<?php
 										$consulta1="select * from formulario";
-										$query1=mysql_query($consulta1);
-										while($dato1=mysql_fetch_array($query1)){
+										$query1=mysqli_query($conexion, $consulta1);
+										while($dato1=mysqli_fetch_array($query1)){
 										?>
 											<option value="<?php echo $dato1['ID_FORM']; ?>"><?php echo $dato1['NOM_FORM']; ?></option>
 										<?php 

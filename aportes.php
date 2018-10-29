@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<!--if lt IE 7html.no-js.lt-ie9.lt-ie8.lt-ie7
--->
-<!--if IE 7html.no-js.lt-ie9.lt-ie8
--->
-<!--if IE 8html.no-js.lt-ie9
--->
-<!--[if gt IE 8]><!-->
+<script>
+  function PopupCenter(pageURL, title,w,h) {
+    var left = (screen.width/2)-(w/2);
+    var top = (screen.height/2)-(h/2);
+    var targetWin = window.open (pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+  }
+</script>
+<?php
+   include_once("conexion.php");
+    $conexion = Conectar();
+    $id = $_POST['id'];
+    $num = $_POST['numero'];
+    $consulta="select * from programa where programa.COD_PROGRA = '$id'";
+    $query=mysqli_query($conexion, $consulta);
+    $dato=mysqli_fetch_array($query);
+    $consulta1="select * from usuario, programa, recibo_ingreso where usuario.COD_SIS = recibo_ingreso.MATRICULA_IN and programa.COD_PROGRA = recibo_ingreso.PROGRA_IN and programa.COD_PROGRA = '$id'  
+      ORDER BY `usuario`.`COD_SIS` ASC";
+    $consulta2="select COUNT(*) from matricula, usuario where matricula.CI_USER = usuario.CI_USER and matricula.COD_PROGRA = '$id'";  
+    $query1=mysqli_query($conexion, $consulta1);
+    $query2=mysqli_query($conexion, $consulta2);
+    $dato1=mysqli_fetch_array($query1);
+    $dato2=mysqli_fetch_array($query2);
+    $participantes=$dato2['COUNT(*)'];
+    $sesion=$dato1['SESIONES'];
+    $aporte=$dato1['APORTES'];
+    $costo=$dato['COSTO'];
+    $ap = $dato['APORTE'];
+    $aux2 = $ap * $num;
+?>
 <html>
-  <!--<![endif]\-->
   <head>
     <meta charset="utf-8">
     <meta name="language" content="es">
@@ -44,19 +65,35 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/stylus.css" rel="stylesheet">
+    <script language="javascript"> 
+function imprimir()
+{ if ((navigator.appName == "Netscape")) { window.print() ; 
+} 
+else
+{ var WebBrowser = '<OBJECT ID="WebBrowser1" WIDTH=0 HEIGHT=0 CLASSID="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2"></OBJECT>'; 
+document.body.insertAdjacentHTML('beforeEnd', WebBrowser); WebBrowser1.ExecWB(6, -1); WebBrowser1.outerHTML = "";
+}
+}
+</script>
   </head>
   <body>
+<?php 
+  session_start(); 
+  $yes = $_SESSION['log'];
+  $cod = $_SESSION['cod'];
+  $ids = $_SESSION['usr'];
+?>
     <header class="site-header">
       <div class="site-header-top">
         <div class="container">
           <nav class="navigation">
             <div class="row">
               <div class="col-sm-4 col-md-4">
-                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="index.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
+                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="home.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
               </div>
               <div class="col-xs-12 col-sm-8 col-md-8">
                 <h1 class="font-bold text-center letter letter_style-h1">SISTEMA DE GESTIÓN ACADEMICA FUNDE </h1>
-                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO DE LA EDUCACIÓN </h3>
+                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO Y LA EDUCACIÓN </h3>
                 <h3 class="text-center letter letter_style-h3--small">Foundation for Development and Education </h3>
               </div>
             </div>
@@ -66,112 +103,10 @@
     </header>
     <div class="container">
       <div id="wrapped">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom:0;">
-          <div class="navbar-header"><a class="navbar-brand" href="index.php"><i class="fa fa-th-large"> FUNDE | FDE</i></a></div>
-          <ul class="nav navbar-top-links navbar-right list_ul">
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-clock-o"></i><b class="caret"></b></a>
-              <ul class="dropdown-menu dropdown-user animated fadeInRight m-t-xs">
-                <li><a href="#"><i class="fa fa-clock-o" id="liveclock"></i><font class="clock">Hora: </font></a></li>
-                <li><a href="#"><i class="fa fa-calendar"></i></a></li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope fa-fw"><span class="label label-warning">5</span></i></a>
-              <ul class="dropdown-menu dropdown-messages animated fadeInRight m-t-xs">
-                <li>
-                  <div class="dropdown-messages-box"></div>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle count-info" href="#" data-toogle="dropdown" aria-expanded="false"><i class="fa fa-bell"> </i><span class="label label-primary">8</span></a>
-              <ul class="dropdown-menu dropdown-alerts animated fadeInRight m-t-xs">
-                <li><a href="#">
-                    <div><i class="fa fa-envelope fa-fw">Tienes 16 mensajes</i><span class="pull-right text-muted small">4 minutos atras</span></div></a></li>
-                <li class="divider"></li>
-                <li><a href="#">
-                    <div><i class="fa fa-twitter fa-fw">3 nuevos seguidores</i><span class="pull-right text-muted small">12 minutos atras</span></div></a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-upload fa-fw">Servicio Rebotado</i><span class="pull-right text-muted small">4 minutos atras</span></a></li>
-                <li class="divider"></li>
-                <li>
-                  <div class="text-center link-block"><a href="#"><strong>Ver todas la notificaciones</strong></a><i class="fa fa-angle-right"></i></div>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-user-o"> Admin</i><b class="caret"></b></a>
-              <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                <li><a href="#">Perfil</a></li>
-                <li><a href="#">Notificaciones</a></li>
-                <li class="divider"></li>
-                <li><a href="login.php"> <i class="fa fa-sing-out"> Salir</i></a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <div class="navbar-default navbar-static-side" role="navigation">
-          <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-              <li class="nav-header menu">
-                <div class="dropdown profile-element"><span>MENU</span></div>
-              </li>
-              <li><a href=""><i class="fa fa-gears"> </i><span class="nav-label"> Configurar Menu  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="listado-funciones.php"><i class="fa fa-code-fork"></i>Listado de funciones</a></li>
-                  <li><a href="listado-formularios.php"><i class="fa fa-list-ul"></i>Listado de formularios</a></li>
-                  <li><a href="listado-form-fun.php"><i></i>Asignar formulario</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-list-ul"> </i><span class="nav-label"> Configurar Roles  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="list-rol.php"><i class="fa fa-code-fork"></i>Lista de roles</a></li>
-                  <li><a href="asignar-rol.php"><i class="fa fa-list-ul"></i>Asignar rol</a></li>
-                  <li><a href="asignar-fun.php"><i></i>Asignar función</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-address-card"> </i><span class="nav-labelGestor"> Plantel Administrativo  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="plantel-admin.php"><i class="fa fa-code-fork"></i>Lista plantel administrativo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-institution"> </i><span class="nav-label"> Gestión Academica</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-programas.php"><i class="fa fa-code-fork"></i>Lista de Programas</a></li>
-                  <li><a href="lista-modulo.php"><i class="fa fa-list-ul"></i>Lista de módulos</a></li>
-                  <li><a href="lista-unidades.php"><i></i>Lista de unidades</a></li>
-                  <li><a href="lista-asistencia.php"><i class="fa fa-list-ul"></i>Lista de asistencia</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-graduation-cap"> </i><span class="nav-label"> Gestor Participantes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="participantes.php"><i class="fa fa-code-fork"></i>Lista de Participantes</a></li>
-                  <li><a href="kardex.php"><i class="fa fa-list-ul"></i>Kardex</a></li>
-                  <li><a href="notas-asistencia.php"><i class="fa fa-list-ul"></i>Notas y Asitenci</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-group"></i><span class="nav-label">Gestor Docentes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-participantes.php"><i class="fa fa-code-fork"></i>Lista Participantes</a></li>
-                  <li><a href="control-asistencia.php"><i class="fa fa-list-ul"></i>Control asistencia</a></li>
-                  <li><a href="lista-calificaciones.php"><i></i>Calificaciones</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-credit-card"></i><span class="nav-label">Gestor de Cobros</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="registro-cobro.php"><i class="fa fa-code-fork"></i>Registros de Cobro</a></li>
-                  <li><a href="regitro-aportes.php"><i class="fa fa-list-ul"></i>Aportes por cobrar</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-money"></i><span class="nav-label">Gestor Contable</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="recibos-egresos.php"><i class="fa fa-code-fork"></i>Recibos Egresos</a></li>
-                  <li><a href="recibos-ingresos.php"><i class="fa fa-list-ul"></i>Recibos Ingresos</a></li>
-                  <li><a href="caja-chica.php"><i></i>Caja</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
+       
+        <?php include "menu.php"; ?>
+        
+       
       </div>
     </div>
     <div class="container">
@@ -181,8 +116,9 @@
             <div class="col-lg-10">
               <h2>Lista de Aportes por grupo</h2>
               <ol class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">Lista de grupos</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="aporte-grupo.php">Lista Grupos</a></li>
+                <li><a href="#">Lista Aportes</a></li>
               </ol>
             </div>
             <div class="col-lg-2"></div>
@@ -192,8 +128,24 @@
               <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                   <div class="ibox-title">
-                    <h5> <i class="fa fa-briefcase"></i> Lista de grupos</h5>
+                    <h5> <i class="fa fa-briefcase"></i> Lista de Aportes</h5>
                   </div>
+                  <div class="ibox-header">
+                  <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                      <div class="text-center">
+                        <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><img src="images/icons/logo funde.jpg" width="160" alt="Logo Funde | FDE">
+                      </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                      <p><strong>FUNDACIÓN PARA EL DESARROLLO Y LA EDUCACIÓN - FUNDE</strong></p>
+                      <p><strong><?php echo $dato["NOM_PROGRA"]?></strong></p>
+                      <p><strong><?php echo $dato["COD_PROGRA"]?></strong></p>
+                      <p><strong>COSTO PROGRAMA: <?php echo $dato["COSTO"]?> Bs.</strong></p>
+                      <p><strong>Nro DE APORTES: <?php echo $dato["APORTES"]?></strong></p>
+                    </div>
+                    </div>
+                </div>
                 </div>
                 <div class="ibox-content">
                   <div class="table-responsive">
@@ -201,30 +153,165 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Departamento</th>
-                          <th>Municipio</th>
-                          <th>Código</th>
-                          <th>Versión</th>
-                          <th>Información</th>
+                          <th>Participantes</th>
+                          <th>Matricula</th>
+                          <th>Nro. Aportes Cancelados</th>
+                         
+                          <th>Total Aportes Cancelados Bs.</th>
+                          <th>Aportes por cobrar a la fecha Bs.</th>
+                          <th>Total Aportes por Cobrar Bs.</th>
+                          <th>Total Convalidadciones Bs.</th>
+                          <th>Total Tutoria Bs.</th>
+                          <th>Total Defensa Bs.</th>
+                          <th>Total Extraordinarios Bs.</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Cochabamb</td>
-                          <td>Cercado</td>
-                          <td>Rec-12</td>
-                          <td>3</td>
-                          <td> 
-                            <div class="text-center"><a href="#info-aporte" data-toggle="modal"><span class="fa fa-folder"></span></a></div>
-                          </td>
-                        </tr>
+                                    <?php
+                                      include_once("conexion.php");
+                                      $conexion = Conectar();
+                                      $cont=0;
+                                      $consulta="select * from usuario, matricula, programa where usuario.CI_USER = matricula.CI_USER and programa.COD_PROGRA = matricula.COD_PROGRA and programa.COD_PROGRA = '$id'";
+                                      $query=mysqli_query($conexion, $consulta);
+                                      $identi=0;
+                                      while($dato=mysqli_fetch_array($query))
+                                      {
+                                        $aux=$dato['COD_SIS'];
+                                        $consulta3="select COUNT(*) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'aporte'";
+                                        $consulta4="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'aporte'";
+                                        $consulta5="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'convalidación'";
+                                        $consulta6="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'tutoria'";
+                                        $consulta7="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'defensa'";
+                                        $consulta8="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'extraordinario'";
+                                        $consul="select SUM(MONTO_NUM) from recibo_ingreso where MATRICULA_IN = '$aux' and PROGRA_IN = '$id' and TIPO_IN = 'matricula'";
+                                        $query3=mysqli_query($conexion, $consulta3);
+                                        $dato3=mysqli_fetch_array($query3);
+                                        $query4=mysqli_query($conexion, $consulta4);
+                                        $dato4=mysqli_fetch_array($query4);
+                                        $query5=mysqli_query($conexion, $consulta5);
+                                        $dato5=mysqli_fetch_array($query5);
+                                        $query6=mysqli_query($conexion, $consulta6);
+                                        $dato6=mysqli_fetch_array($query6);
+                                        $query7=mysqli_query($conexion, $consulta7);
+                                        $dato7=mysqli_fetch_array($query7);
+                                        $query8=mysqli_query($conexion, $consulta8);
+                                        $dato8=mysqli_fetch_array($query8);
+                                        $quer=mysqli_query($conexion, $consul);
+                                        $dat=mysqli_fetch_array($quer);
+                                        $aux1=$costo - $dato4['SUM(MONTO_NUM)'];
+                                        $aux3 = $aux2 - $dato4['SUM(MONTO_NUM)'];
+                                         $cont++;
+
+                                         echo "
+                                        <tr>
+                                          <td>".$cont."</td>
+                                          <td>".$dato["APE_PAT"]." ".$dato["APE_MAT"]." ".$dato["NOM_USER"]." ".$dato["OTRO_NOM"]."</td>";
+                                          if ($dat["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dat["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($dato3["COUNT(*)"] != 0) 
+                                          {
+                                          echo "<td>".$dato3["COUNT(*)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                         
+                                          if ($dato4["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dato4["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($aux3 >= 0) 
+                                          {
+                                          echo "<td>".$aux3."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($aux1 != 0) 
+                                          {
+                                          echo "<td>".$aux1."</td>";  
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($dato5["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dato5["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($dato6["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dato6["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($dato7["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dato7["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                          if ($dato8["SUM(MONTO_NUM)"] != 0) 
+                                          {
+                                          echo "<td>".$dato8["SUM(MONTO_NUM)"]."</td>"; 
+                                          }else{
+                                          echo "<td>0</td>";  
+                                          }
+                                        echo"</tr>";
+                                        }
+                                       //$consulta9="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'aporte'"; 
+                                        //$query9=mysqli_query($conexion, $consulta9);
+                                        //$dato9=mysqli_fetch_array($query9);
+                                        //$consulta10="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'convalidación'"; 
+                                        //$query10=mysqli_query($conexion, $consulta10);
+                                        //$dato10=mysqli_fetch_array($query10);
+                                        //$consulta11="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'matricula'"; 
+                                        //$query11=mysqli_query($conexion, $consulta11);
+                                        //$dato11=mysqli_fetch_array($query11);
+                                        //$consulta12="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'tutoria'"; 
+                                        //$query12=mysqli_query($conexion, $consulta12);
+                                        //$dato12=mysqli_fetch_array($query12);
+                                        //$consulta13="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'defensa'"; 
+                                        //$query13=mysqli_query($conexion, $consulta13);
+                                        //$dato13=mysqli_fetch_array($query13);
+                                        //$consulta14="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id' and TIPO_IN = 'extraordinario'"; 
+                                        //$query14=mysqli_query($conexion, $consulta14);
+                                        //$dato14=mysqli_fetch_array($query14);
+                                         //$consulta15="select SUM(MONTO_NUM) from recibo_ingreso where PROGRA_IN = '$id'"; 
+                                       // $query15=mysqli_query($conexion, $consulta15);
+                                        //$dato15=mysqli_fetch_array($query15);
+                                      //echo "<tr>
+                                      ////<td>Total Programa:".$dato15["SUM(MONTO_NUM)"]."</td>
+                                      
+                                      //<td>Total Matriculas : ".$dato11["SUM(MONTO_NUM)"]."</td>
+                                      
+
+
+                                      //<td>Total Aportes : ".$dato9["SUM(MONTO_NUM)"]."</td>
+                                      
+                                      //<td>Total Convalidaciones : ".$dato10["SUM(MONTO_NUM)"]."</td>
+                                      //<td>Total Tutorias : ".$dato12["SUM(MONTO_NUM)"]."</td>
+                                      //<td>Total Defensas : ".$dato13["SUM(MONTO_NUM)"]."</td>
+                                      //<td>Total Extraordinarios : ".$dato14["SUM(MONTO_NUM)"]."</td>
+                                      //<td></td>
+                                      //<td></td>
+                                      
+
+                                      
+                                      //</tr>";
+                                    ?>
                       </tbody>
                     </table>
                   </div>
-                  <div class="control-group">
-                    <div class="controls margin_bottom text-center margin_bottom"><a class="btn btn-success btn-w-m button" data-toggle="modal" href="#nuevo-programa"><i class="fa fa-user-plus margin"></i>Nuevo aporte</a><a class="btn btn-info btn-w-m button" href="#" data-toggle="modal"><i class="fa fa-check margin"></i>Guardar Cambios</a><a class="btn btn-danger btn-w-m" href="#" data-toggle="modal"><i class="fa fa-undo margin"></i>Restablecer</a></div>
-                  </div>
+                  <div class="ibox-footer">
+                <div class="text-center">
+                  <a href="javascript:PopupCenter('imprimir_aporte_grupo.php?id=<?php echo $id?>&num=<?php echo $num?>','IMPRIMIR DOCENTE',600,500)") class="btn btn-success btn-w-m"><span class="fa fa-print margin_right"></span> Imprimir</a>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
@@ -414,7 +501,7 @@
               </div>
               <div class="modal-footer">
                 <div class="text-center">
-                  <button class="btn btn-primary">Ingresar Datos	</button>
+                  <button class="btn btn-primary">Ingresar Datos  </button>
                 </div>
               </div>
             </div>
@@ -462,220 +549,220 @@
     <script src="js/plugins/iCheck/icheck.min.js"></script>
     <script>
       $(document).ready(function () {
-      		$('.i-checks').iCheck({
-      			checkboxClass: 'icheckbox_square-green',
-      			radioClass: 'iradio_square-green',
-      		});
-      	});
+          $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+          });
+        });
       $(document).ready(function(){
-      	$('.tagsinput').tagsinput({
-      		tagClass: 'label label-primary'
-      	});
-      	var $image = $(".image-crop > img")
-      	$($image).cropper({
-      		aspectRatio: 1.618,
-      		preview: ".img-preview",
-      		done: function(data) {
-      			// Output the result data for cropping image.
-      		}
-      	});
-      	var $inputImage = $("#inputImage");
-      	if (window.FileReader) {
-      		$inputImage.change(function() {
-      			var fileReader = new FileReader(),
-      					files = this.files,
-      					file;
-      			if (!files.length) {
-      				return;
-      			}
-      			file = files[0];
+        $('.tagsinput').tagsinput({
+          tagClass: 'label label-primary'
+        });
+        var $image = $(".image-crop > img")
+        $($image).cropper({
+          aspectRatio: 1.618,
+          preview: ".img-preview",
+          done: function(data) {
+            // Output the result data for cropping image.
+          }
+        });
+        var $inputImage = $("#inputImage");
+        if (window.FileReader) {
+          $inputImage.change(function() {
+            var fileReader = new FileReader(),
+                files = this.files,
+                file;
+            if (!files.length) {
+              return;
+            }
+            file = files[0];
       
-      			if (/^image\/\w+$/.test(file.type)) {
-      				fileReader.readAsDataURL(file);
-      				fileReader.onload = function () {
-      					$inputImage.val("");
-      					$image.cropper("reset", true).cropper("replace", this.result);
-      				};
-      			} else {
-      				showMessage("Please choose an image file.");
-      			}
-      		});
-      	} else {
-      		$inputImage.addClass("hide");
-      	}
+            if (/^image\/\w+$/.test(file.type)) {
+              fileReader.readAsDataURL(file);
+              fileReader.onload = function () {
+                $inputImage.val("");
+                $image.cropper("reset", true).cropper("replace", this.result);
+              };
+            } else {
+              showMessage("Please choose an image file.");
+            }
+          });
+        } else {
+          $inputImage.addClass("hide");
+        }
       
-      	$("#download").click(function() {
-      		window.open($image.cropper("getDataURL"));
-      	});
+        $("#download").click(function() {
+          window.open($image.cropper("getDataURL"));
+        });
       
-      	$("#zoomIn").click(function() {
-      		$image.cropper("zoom", 0.1);
-      	});
+        $("#zoomIn").click(function() {
+          $image.cropper("zoom", 0.1);
+        });
       
-      	$("#zoomOut").click(function() {
-      		$image.cropper("zoom", -0.1);
-      	});
+        $("#zoomOut").click(function() {
+          $image.cropper("zoom", -0.1);
+        });
       
-      	$("#rotateLeft").click(function() {
-      		$image.cropper("rotate", 45);
-      	});
+        $("#rotateLeft").click(function() {
+          $image.cropper("rotate", 45);
+        });
       
-      	$("#rotateRight").click(function() {
-      		$image.cropper("rotate", -45);
-      	});
+        $("#rotateRight").click(function() {
+          $image.cropper("rotate", -45);
+        });
       
-      	$("#setDrag").click(function() {
-      		$image.cropper("setDragMode", "crop");
-      	});
+        $("#setDrag").click(function() {
+          $image.cropper("setDragMode", "crop");
+        });
       
-      	$('#data_1 .input-group.date').datepicker({
-      		todayBtn: "linked",
-      		keyboardNavigation: false,
-      		forceParse: false,
-      		calendarWeeks: true,
-      		autoclose: true
-      	});
+        $('#data_1 .input-group.date').datepicker({
+          todayBtn: "linked",
+          keyboardNavigation: false,
+          forceParse: false,
+          calendarWeeks: true,
+          autoclose: true
+        });
       
-      	$('#data_2 .input-group.date').datepicker({
-      		startView: 1,
-      		todayBtn: "linked",
-      		keyboardNavigation: false,
-      		forceParse: false,
-      		autoclose: true,
-      		format: "dd/mm/yyyy"
-      	});
+        $('#data_2 .input-group.date').datepicker({
+          startView: 1,
+          todayBtn: "linked",
+          keyboardNavigation: false,
+          forceParse: false,
+          autoclose: true,
+          format: "dd/mm/yyyy"
+        });
       
-      	$('#data_3 .input-group.date').datepicker({
-      		startView: 2,
-      		todayBtn: "linked",
-      		keyboardNavigation: false,
-      		forceParse: false,
-      		autoclose: true
-      	});
+        $('#data_3 .input-group.date').datepicker({
+          startView: 2,
+          todayBtn: "linked",
+          keyboardNavigation: false,
+          forceParse: false,
+          autoclose: true
+        });
       
-      	$('#data_4 .input-group.date').datepicker({
-      		minViewMode: 1,
-      		keyboardNavigation: false,
-      		forceParse: false,
-      		forceParse: false,
-      		autoclose: true,
-      		todayHighlight: true
-      	});
+        $('#data_4 .input-group.date').datepicker({
+          minViewMode: 1,
+          keyboardNavigation: false,
+          forceParse: false,
+          forceParse: false,
+          autoclose: true,
+          todayHighlight: true
+        });
       
-      	$('#data_5 .input-daterange').datepicker({
-      		keyboardNavigation: false,
-      		forceParse: false,
-      		autoclose: true
-      	});
+        $('#data_5 .input-daterange').datepicker({
+          keyboardNavigation: false,
+          forceParse: false,
+          autoclose: true
+        });
       
-      	var elem = document.querySelector('.js-switch');
-      	var switchery = new Switchery(elem, { color: '#1AB394' });
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, { color: '#1AB394' });
       
-      	var elem_2 = document.querySelector('.js-switch_2');
-      	var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+        var elem_2 = document.querySelector('.js-switch_2');
+        var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
       
-      	var elem_3 = document.querySelector('.js-switch_3');
-      	var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+        var elem_3 = document.querySelector('.js-switch_3');
+        var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
       
-      	var elem_4 = document.querySelector('.js-switch_4');
-      	var switchery_4 = new Switchery(elem_4, { color: '#f8ac59' });
-      		switchery_4.disable();
+        var elem_4 = document.querySelector('.js-switch_4');
+        var switchery_4 = new Switchery(elem_4, { color: '#f8ac59' });
+          switchery_4.disable();
       
-      	$('.i-checks').iCheck({
-      		checkboxClass: 'icheckbox_square-green',
-      		radioClass: 'iradio_square-green'
-      	});
+        $('.i-checks').iCheck({
+          checkboxClass: 'icheckbox_square-green',
+          radioClass: 'iradio_square-green'
+        });
       
-      	$('.demo1').colorpicker();
+        $('.demo1').colorpicker();
       
-      	var divStyle = $('.back-change')[0].style;
-      	$('#demo_apidemo').colorpicker({
-      		color: divStyle.backgroundColor
-      	}).on('changeColor', function(ev) {
-      				divStyle.backgroundColor = ev.color.toHex();
-      			});
+        var divStyle = $('.back-change')[0].style;
+        $('#demo_apidemo').colorpicker({
+          color: divStyle.backgroundColor
+        }).on('changeColor', function(ev) {
+              divStyle.backgroundColor = ev.color.toHex();
+            });
       
-      	$('.clockpicker').clockpicker();
+        $('.clockpicker').clockpicker();
       
-      	$('input[name="daterange"]').daterangepicker();
+        $('input[name="daterange"]').daterangepicker();
       
-      	$('#reportrange span').php(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('#reportrange span').php(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
       
-      	$('#reportrange').daterangepicker({
-      		format: 'MM/DD/YYYY',
-      		startDate: moment().subtract(29, 'days'),
-      		endDate: moment(),
-      		minDate: '01/01/2012',
-      		maxDate: '12/31/2015',
-      		dateLimit: { days: 60 },
-      		showDropdowns: true,
-      		showWeekNumbers: true,
-      		timePicker: false,
-      		timePickerIncrement: 1,
-      		timePicker12Hour: true,
-      		ranges: {
-      			'Today': [moment(), moment()],
-      			'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-      			'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-      			'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-      			'This Month': [moment().startOf('month'), moment().endOf('month')],
-      			'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      		},
-      		opens: 'right',
-      		drops: 'down',
-      		buttonClasses: ['btn', 'btn-sm'],
-      		applyClass: 'btn-primary',
-      		cancelClass: 'btn-default',
-      		separator: ' to ',
-      		locale: {
-      			applyLabel: 'Submit',
-      			cancelLabel: 'Cancel',
-      			fromLabel: 'From',
-      			toLabel: 'To',
-      			customRangeLabel: 'Custom',
-      			daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-      			monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      			firstDay: 1
-      		}
-      	}, function(start, end, label) {
-      		console.log(start.toISOString(), end.toISOString(), label);
-      		$('#reportrange span').php(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-      	});
+        $('#reportrange').daterangepicker({
+          format: 'MM/DD/YYYY',
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment(),
+          minDate: '01/01/2012',
+          maxDate: '12/31/2015',
+          dateLimit: { days: 60 },
+          showDropdowns: true,
+          showWeekNumbers: true,
+          timePicker: false,
+          timePickerIncrement: 1,
+          timePicker12Hour: true,
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          opens: 'right',
+          drops: 'down',
+          buttonClasses: ['btn', 'btn-sm'],
+          applyClass: 'btn-primary',
+          cancelClass: 'btn-default',
+          separator: ' to ',
+          locale: {
+            applyLabel: 'Submit',
+            cancelLabel: 'Cancel',
+            fromLabel: 'From',
+            toLabel: 'To',
+            customRangeLabel: 'Custom',
+            daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+            monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            firstDay: 1
+          }
+        }, function(start, end, label) {
+          console.log(start.toISOString(), end.toISOString(), label);
+          $('#reportrange span').php(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        });
       
-      	$(".select2_demo_1").select2();
-      	$(".select2_demo_2").select2();
-      	$(".select2_demo_3").select2({
-      		placeholder: "Select a state",
-      		allowClear: true
-      	});
+        $(".select2_demo_1").select2();
+        $(".select2_demo_2").select2();
+        $(".select2_demo_3").select2({
+          placeholder: "Select a state",
+          allowClear: true
+        });
       
       
-      	$(".touchspin1").TouchSpin({
-      		buttondown_class: 'btn btn-white',
-      		buttonup_class: 'btn btn-white'
-      	});
+        $(".touchspin1").TouchSpin({
+          buttondown_class: 'btn btn-white',
+          buttonup_class: 'btn btn-white'
+        });
       
-      	$(".touchspin2").TouchSpin({
-      		min: 0,
-      		max: 100,
-      		step: 0.1,
-      		decimals: 2,
-      		boostat: 5,
-      		maxboostedstep: 10,
-      		postfix: '%',
-      		buttondown_class: 'btn btn-white',
-      		buttonup_class: 'btn btn-white'
-      	});
+        $(".touchspin2").TouchSpin({
+          min: 0,
+          max: 100,
+          step: 0.1,
+          decimals: 2,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: '%',
+          buttondown_class: 'btn btn-white',
+          buttonup_class: 'btn btn-white'
+        });
       
-      	$(".touchspin3").TouchSpin({
-      		verticalbuttons: true,
-      		buttondown_class: 'btn btn-white',
-      		buttonup_class: 'btn btn-white'
-      	});
+        $(".touchspin3").TouchSpin({
+          verticalbuttons: true,
+          buttondown_class: 'btn btn-white',
+          buttonup_class: 'btn btn-white'
+        });
       
-      	$('.dual_select').bootstrapDualListbox({
-      		selectorMinimalHeight: 160
-      	});
+        $('.dual_select').bootstrapDualListbox({
+          selectorMinimalHeight: 160
+        });
       
       
       });
@@ -683,53 +770,53 @@
       $('.chosen-select').chosen({width: "100%"});
       
       $("#ionrange_1").ionRangeSlider({
-      	min: 0,
-      	max: 5000,
-      	type: 'double',
-      	prefix: "$",
-      	maxPostfix: "+",
-      	prettify: false,
-      	hasGrid: true
+        min: 0,
+        max: 5000,
+        type: 'double',
+        prefix: "$",
+        maxPostfix: "+",
+        prettify: false,
+        hasGrid: true
       });
       
       $("#ionrange_2").ionRangeSlider({
-      	min: 0,
-      	max: 10,
-      	type: 'single',
-      	step: 0.1,
-      	postfix: " carats",
-      	prettify: false,
-      	hasGrid: true
+        min: 0,
+        max: 10,
+        type: 'single',
+        step: 0.1,
+        postfix: " carats",
+        prettify: false,
+        hasGrid: true
       });
       
       $("#ionrange_3").ionRangeSlider({
-      	min: -50,
-      	max: 50,
-      	from: 0,
-      	postfix: "°",
-      	prettify: false,
-      	hasGrid: true
+        min: -50,
+        max: 50,
+        from: 0,
+        postfix: "°",
+        prettify: false,
+        hasGrid: true
       });
       
       $("#ionrange_4").ionRangeSlider({
-      	values: [
-      		"January", "February", "March",
-      		"April", "May", "June",
-      		"July", "August", "September",
-      		"October", "November", "December"
-      	],
-      	type: 'single',
-      	hasGrid: true
+        values: [
+          "January", "February", "March",
+          "April", "May", "June",
+          "July", "August", "September",
+          "October", "November", "December"
+        ],
+        type: 'single',
+        hasGrid: true
       });
       
       $("#ionrange_5").ionRangeSlider({
-      	min: 10000,
-      	max: 100000,
-      	step: 100,
-      	postfix: " km",
-      	from: 55000,
-      	hideMinMax: true,
-      	hideFromTo: false
+        min: 10000,
+        max: 100000,
+        step: 100,
+        postfix: " km",
+        from: 55000,
+        hideMinMax: true,
+        hideFromTo: false
       });
       
       $(".dial").knob();
@@ -737,87 +824,87 @@
       var basic_slider = document.getElementById('basic_slider');
       
       noUiSlider.create(basic_slider, {
-      	start: 40,
-      	behaviour: 'tap',
-      	connect: 'upper',
-      	range: {
-      		'min':  20,
-      		'max':  80
-      	}
+        start: 40,
+        behaviour: 'tap',
+        connect: 'upper',
+        range: {
+          'min':  20,
+          'max':  80
+        }
       });
       
       var range_slider = document.getElementById('range_slider');
       
       noUiSlider.create(range_slider, {
-      	start: [ 40, 60 ],
-      	behaviour: 'drag',
-      	connect: true,
-      	range: {
-      		'min':  20,
-      		'max':  80
-      	}
+        start: [ 40, 60 ],
+        behaviour: 'drag',
+        connect: true,
+        range: {
+          'min':  20,
+          'max':  80
+        }
       });
       
       var drag_fixed = document.getElementById('drag-fixed');
       
       noUiSlider.create(drag_fixed, {
-      	start: [ 40, 60 ],
-      	behaviour: 'drag-fixed',
-      	connect: true,
-      	range: {
-      		'min':  20,
-      		'max':  80
-      	}
+        start: [ 40, 60 ],
+        behaviour: 'drag-fixed',
+        connect: true,
+        range: {
+          'min':  20,
+          'max':  80
+        }
       });
       $(document).ready(function() {
       
-      	$('.footable').footable();
-      	$('.footable2').footable();
+        $('.footable').footable();
+        $('.footable2').footable();
       
       });
     </script>
     <script>
       $(document).ready(function(){
-      	$('.dataTables-example').DataTable({
-      		pageLength: 25,
-      		responsive: true,
-      		dom: '<"html5buttons"B>lTfgitp',
-      		buttons: [
-      			{extend: 'copy'},
-      			{extend: 'csv'},
-      			{extend: 'excel', title: 'ExampleFile'},
-      			{extend: 'pdf', title: 'ExampleFile'},
+        $('.dataTables-example').DataTable({
+          pageLength: 25,
+          responsive: true,
+          dom: '<"html5buttons"B>lTfgitp',
+          buttons: [
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'ExampleFile'},
+            {extend: 'pdf', title: 'ExampleFile'},
       
-      			{extend: 'print',
-      			 customize: function (win){
-      					$(win.document.body).addClass('white-bg');
-      					$(win.document.body).css('font-size', '10px');
+            {extend: 'print',
+             customize: function (win){
+                $(win.document.body).addClass('white-bg');
+                $(win.document.body).css('font-size', '10px');
       
-      					$(win.document.body).find('table')
-      							.addClass('compact')
-      							.css('font-size', 'inherit');
-      			}
-      			}
-      		]
+                $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+            }
+            }
+          ]
       
-      	});
+        });
       
       });
     </script>
     <script>
       function imprimir(){ 
-      	if ((navigator.appName == "Netscape")) {
-      		window.print() ; 
-      	} else{
-      		var WebBrowser = '<OBJECT ID="WebBrowser1" WIDTH=0 HEIGHT=0 CLASSID="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2"></OBJECT>'; 
-      		document.body.insertAdjacentHTML('beforeEnd', WebBrowser); WebBrowser1.ExecWB(6, -1); WebBrowser1.outerHTML = "";
-      	}
+        if ((navigator.appName == "Netscape")) {
+          window.print() ; 
+        } else{
+          var WebBrowser = '<OBJECT ID="WebBrowser1" WIDTH=0 HEIGHT=0 CLASSID="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2"></OBJECT>'; 
+          document.body.insertAdjacentHTML('beforeEnd', WebBrowser); WebBrowser1.ExecWB(6, -1); WebBrowser1.outerHTML = "";
+        }
       }
     </script>
     <style>
       *{
-      	line-height: 60%;
-      	font-size:12;
+        line-height: 60%;
+        font-size:12;
       }
       block scriptsBody
     </style>

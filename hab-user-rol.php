@@ -1,13 +1,7 @@
 <!DOCTYPE html>
-<!--if lt IE 7html.no-js.lt-ie9.lt-ie8.lt-ie7
--->
-<!--if IE 7html.no-js.lt-ie9.lt-ie8
--->
-<!--if IE 8html.no-js.lt-ie9
--->
-<!--[if gt IE 8]><!-->
+
 <html>
-  <!--<![endif]\-->
+  
   <head>
     <meta charset="utf-8">
     <meta name="language" content="es">
@@ -46,17 +40,23 @@
     <link href="css/stylus.css" rel="stylesheet">
   </head>
   <body>
+    <?php 
+  session_start(); 
+  $yes = $_SESSION['log'];
+  $cod = $_SESSION['cod'];
+  $ids = $_SESSION['usr'];
+    ?>
     <header class="site-header">
       <div class="site-header-top">
         <div class="container">
           <nav class="navigation">
             <div class="row">
               <div class="col-sm-4 col-md-4">
-                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="index.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
+                <input class="menu-trigger-input" type="checkbox" id="menu-trigger"><a class="site-logo" href="home.php" title="Funde | FDE"><img src="images/icons/logo funde.jpg" width="auto" alt="Logo Funde | FDE"></a>
               </div>
               <div class="col-xs-12 col-sm-8 col-md-8">
                 <h1 class="font-bold text-center letter letter_style-h1">SISTEMA DE GESTIÓN ACADEMICA FUNDE </h1>
-                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO DE LA EDUCACIÓN </h3>
+                <h3 class="font-bold text-center letter letter_style-h3">FUNDACIÓN PARA EL DESARROLLO Y LA EDUCACIÓN </h3>
                 <h3 class="text-center letter letter_style-h3--small">Foundation for Development and Education </h3>
               </div>
             </div>
@@ -107,71 +107,8 @@
             </li>
           </ul>
         </nav>
-        <div class="navbar-default navbar-static-side" role="navigation">
-          <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-              <li class="nav-header menu">
-                <div class="dropdown profile-element"><span>MENU</span></div>
-              </li>
-              <li><a href=""><i class="fa fa-gears"> </i><span class="nav-label"> Configurar Menu  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="listado-funciones.php"><i class="fa fa-code-fork"></i>Listado de funciones</a></li>
-                  <li><a href="listado-formularios.php"><i class="fa fa-list-ul"></i>Listado de formularios</a></li>
-                  <li><a href="listado-form-fun.php"><i></i>Asignar formulario</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-list-ul"> </i><span class="nav-label"> Configurar Roles  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="list-rol.php"><i class="fa fa-code-fork"></i>Lista de roles</a></li>
-                  <li><a href="asignar-rol.php"><i class="fa fa-list-ul"></i>Asignar rol</a></li>
-                  <li><a href="asignar-fun.php"><i></i>Asignar función</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-address-card"> </i><span class="nav-labelGestor"> Plantel Administrativo  </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="plantel-admin.php"><i class="fa fa-code-fork"></i>Lista plantel administrativo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-institution"> </i><span class="nav-label"> Gestión Academica</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-programas.php"><i class="fa fa-code-fork"></i>Lista de Programas</a></li>
-                  <li><a href="lista-modulo.php"><i class="fa fa-list-ul"></i>Lista de módulos</a></li>
-                  <li><a href="lista-unidades.php"><i></i>Lista de unidades</a></li>
-                  <li><a href="lista-asistencia.php"><i class="fa fa-list-ul"></i>Lista de asistencia</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-graduation-cap"> </i><span class="nav-label"> Gestor Participantes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="participantes.php"><i class="fa fa-code-fork"></i>Lista de Participantes</a></li>
-                  <li><a href="kardex.php"><i class="fa fa-list-ul"></i>Kardex</a></li>
-                  <li><a href="notas-asistencia.php"><i class="fa fa-list-ul"></i>Notas y Asitenci</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-group"></i><span class="nav-label">Gestor Docentes</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="lista-participantes.php"><i class="fa fa-code-fork"></i>Lista Participantes</a></li>
-                  <li><a href="control-asistencia.php"><i class="fa fa-list-ul"></i>Control asistencia</a></li>
-                  <li><a href="lista-calificaciones.php"><i></i>Calificaciones</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-credit-card"></i><span class="nav-label">Gestor de Cobros</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="registro-cobro.php"><i class="fa fa-code-fork"></i>Registros de Cobro</a></li>
-                  <li><a href="regitro-aportes.php"><i class="fa fa-list-ul"></i>Aportes por cobrar</a></li>
-                  <li><a href="aporte-grupo.php"><i class="fa fa-list-ul"></i>Aportes por grupo</a></li>
-                </ul>
-              </li>
-              <li><a href="#"><i class="fa fa-money"></i><span class="nav-label">Gestor Contable</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" style="height: 0px;">
-                  <li class="active"><a href="recibos-egresos.php"><i class="fa fa-code-fork"></i>Recibos Egresos</a></li>
-                  <li><a href="recibos-ingresos.php"><i class="fa fa-list-ul"></i>Recibos Ingresos</a></li>
-                  <li><a href="caja-chica.php"><i></i>Caja</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
+         <?php include "menu.php"; ?>
+          
       </div>
     </div>
     <div class="container">
@@ -181,7 +118,7 @@
             <div class="col-lg-10">
               <h2>Lista de Usuarios</h2>
               <ol class="breadcrumb">
-                <li><a href="index.php">Home</a></li>
+                <li><a href="home.php">Home</a></li>
                 <li><a href="#">Lista de usuarios administrativos</a></li>
               </ol>
             </div>
